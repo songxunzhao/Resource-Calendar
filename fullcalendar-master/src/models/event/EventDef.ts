@@ -34,6 +34,7 @@ export default abstract class EventDef {
   borderColor: any
   textColor: any
   code: any
+  type: any
   e: any
   className: any // an array. TODO: rename to className*s* (API breakage)
   miscProps: any
@@ -235,5 +236,6 @@ EventDef.defineStandardProps({
   borderColor: true,
   textColor: true,
   code: true,
+  type: true,
   e: true
 })

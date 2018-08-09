@@ -6,7 +6,7 @@ import GlobalEmitter from '../common/GlobalEmitter'
 
 
 export default abstract class InteractiveDateComponent extends DateComponent {
-
+  cellHoveringClass: any
   dateClickingClass: any
   dateSelectingClass: any
   eventPointingClass: any
@@ -16,6 +16,7 @@ export default abstract class InteractiveDateComponent extends DateComponent {
 
   dateClicking: any
   dateSelecting: any
+  cellHovering: any
   eventPointing: any
   eventDragging: any
   eventResizing: any
@@ -39,6 +40,10 @@ export default abstract class InteractiveDateComponent extends DateComponent {
 
     if (this.dateSelectingClass) {
       this.dateSelecting = new this.dateSelectingClass(this)
+    }
+
+    if (this.cellHoveringClass) {
+      this.cellHovering = new this.cellHoveringClass(this)
     }
 
     if (this.eventPointingClass) {
@@ -70,6 +75,10 @@ export default abstract class InteractiveDateComponent extends DateComponent {
 
     if (this.dateSelecting) {
       this.dateSelecting.bindToEl(el)
+    }
+
+    if (this.cellHovering) {
+      this.cellHovering.bindToEl(el)
     }
 
     this.bindAllSegHandlersToEl(el)

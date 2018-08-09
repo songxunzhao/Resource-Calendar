@@ -1,6 +1,7 @@
 import Mixin from '../../common/Mixin'
 import DateClicking from './DateClicking'
 import DateSelecting from './DateSelecting'
+import CellHovering from './CellHovering'
 import EventPointing from './EventPointing'
 import EventDragging from './EventDragging'
 import EventResizing from './EventResizing'
@@ -10,6 +11,7 @@ export default class StandardInteractionsMixin extends Mixin {
 }
 
 (StandardInteractionsMixin as any).prototype.dateClickingClass = DateClicking;
+(StandardInteractionsMixin as any).prototype.cellHoveringClass = CellHovering;
 (StandardInteractionsMixin as any).prototype.dateSelectingClass = DateSelecting;
 (StandardInteractionsMixin as any).prototype.eventPointingClass = EventPointing;
 (StandardInteractionsMixin as any).prototype.eventDraggingClass = EventDragging;

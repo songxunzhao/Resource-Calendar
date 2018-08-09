@@ -471,7 +471,7 @@ export default class Calendar {
   renderView(viewType?: string) {
     let oldView = this.view
     let newView
-    console.log(viewType)
+
     this.freezeContentHeight()
 
     if (oldView && viewType && oldView.type !== viewType) {

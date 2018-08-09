@@ -569,7 +569,6 @@ export default abstract class DateComponent extends Component {
   eventFootprintsToSegs(eventFootprints) {
     let segs = []
     let i
-
     for (i = 0; i < eventFootprints.length; i++) {
       segs.push.apply(segs,
         this.eventFootprintToSegs(eventFootprints[i])

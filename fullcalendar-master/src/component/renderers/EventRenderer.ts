@@ -60,7 +60,6 @@ export default class EventRenderer {
     let eventRanges
     let bgRanges = []
     let fgRanges = []
-
     for (eventDefId in eventsPayload) {
       instanceGroup = eventsPayload[eventDefId]
 

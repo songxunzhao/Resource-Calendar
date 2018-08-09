@@ -11,6 +11,7 @@ import ComponentFootprint from '../models/ComponentFootprint'
 import ResourceGridEventRenderer from './ResourceGridEventRenderer'
 import ResourceGridHelperRenderer from './ResourceGridHelperRenderer'
 import ResourceGridFillRenderer from './ResourceGridFillRenderer'
+import ResourceFootprint from '../models/ResourceFootprint'
 
 /* A component that renders one or more columns of vertical time slots
 ----------------------------------------------------------------------------------------------------------------------*/
@@ -78,7 +79,6 @@ export default class ResourceGrid extends InteractiveDateComponent {
     this.processOptions()
   }
 
-
   // Slices up the given span (unzoned start/end with other misc data) into an array of segments
   componentFootprintToSegs(componentFootprint) {
     let segs = this.sliceRangeByTimes(componentFootprint.unzonedRange)
@@ -95,6 +95,39 @@ export default class ResourceGrid extends InteractiveDateComponent {
     return segs
   }
 
+  eventFootprintToSegs(eventFootprint) {
+    let unzonedRange = eventFootprint.componentFootprint.unzonedRange
+    let segs
+    let i
+    let seg
+    let resourceId = eventFootprint.eventDef.miscProps.resourceId
+
+    segs = this.componentFootprintToSegs(eventFootprint.componentFootprint)
+
+    for (i = 0; i < segs.length; i++) {
+      seg = segs[i]
+
+      if (!unzonedRange.isStart) {
+        seg.isStart = false
+      }
+      if (!unzonedRange.isEnd) {
+        seg.isEnd = false
+      }
+
+      if (resourceId) {
+        for (let i = 0; i < this.resources.length; i++) {
+          if (this.resources[i].id === resourceId && seg.col === 0) {
+            seg.col = i
+          }
+        }
+      }
+
+      seg.footprint = eventFootprint
+      // TODO: rename to seg.eventFootprint
+    }
+
+    return segs
+  }
 
   /* Date Handling
   ------------------------------------------------------------------------------------------------------------------*/
@@ -168,9 +201,9 @@ export default class ResourceGrid extends InteractiveDateComponent {
   }
 
   /* Override cell classes */
-  getResourceClasses(date, isService, noThemeHighlight?) {
+  getResourceClasses(date, isAVCell, noThemeHighlight?) {
     let classes = super.getDayClasses(date, noThemeHighlight)
-    if (isService) {
+    if (isAVCell) {
       classes.push('fc-service')
     }
     return classes
@@ -263,16 +296,17 @@ export default class ResourceGrid extends InteractiveDateComponent {
     let slotDate // will be on the view's first day, but we only care about its time
     let isLabeled
     let axisHtml
+    let isFullHourLabel
 
     // Calculate the time for each slot
     while (slotTime < dateProfile.maxTime) {
       slotDate = calendar.msToUtcMoment(dateProfile.renderUnzonedRange.startMs).time(slotTime)
       isLabeled = isInt(divideDurationByDuration(slotIterator, this.labelInterval))
-
+      isFullHourLabel = slotDate.minute() === 0 && slotDate.second() === 0
       axisHtml =
         '<td class="fc-axis fc-time ' + theme.getClass('widgetContent') + '" ' + view.axisStyleAttr() + '>' +
         (isLabeled ?
-            '<span>' + // for matchCellWidths
+            '<span class="' + (isFullHourLabel ? 'fc-time-fullhour' : '') + '">' + // for matchCellWidths
             htmlEscape(this.renderLabel(slotDate)) +
             '</span>' :
             ''
@@ -625,7 +659,7 @@ export default class ResourceGrid extends InteractiveDateComponent {
         let snapBottom = slatTop + ((localSnapIndex + 1) / snapsPerSlot) * slatHeight
 
         return {
-          col: colIndex,
+          col: Math.floor(colIndex / 2),
           snap: snapIndex,
           component: this, // needed unfortunately :(
           left: colCoordCache.getLeftOffset(colIndex),
@@ -642,13 +676,16 @@ export default class ResourceGrid extends InteractiveDateComponent {
     let start = this.getCellDate(0, hit.col) // row=0
     let time = this.computeSnapTime(hit.snap) // pass in the snap-index
     let end
+    let resource
 
     start.time(time)
     end = start.clone().add(this.snapDuration)
+    resource = this.getCellResource(hit.snap, hit.col)
 
-    return new ComponentFootprint(
+    return new ResourceFootprint(
       new UnzonedRange(start, end),
-      false // all-day?
+      false, // all-day?,
+      resource
     )
   }
 
@@ -761,9 +798,7 @@ export default class ResourceGrid extends InteractiveDateComponent {
     return this.renderIntroHtml() // fall back to generic
   }
 
-  renderIntroHtml() {
-    return ''
-  }
+  renderIntroHtml() {}
 
   renderHeadResourceCellsHtml() {
     let htmls = []
@@ -829,13 +864,14 @@ export default class ResourceGrid extends InteractiveDateComponent {
     let t = (this as any)
     let view = t.view
     let isDateValid = t.dateProfile.activeUnzonedRange.containsDate(date) // TODO: called too frequently. cache somehow.
-    let serviceClasses = t.getResourceClasses(date, true)
-    let eventClasses = t.getResourceClasses(date, false)
+    let avClasses = t.getResourceClasses(date, true)
+    let apClasses = t.getResourceClasses(date, false)
+    let serviceCellWidth = this.opt('serviceCellWidth')
 
-    serviceClasses.unshift('fc-day', view.calendar.theme.getClass('widgetContent'))
-    eventClasses.unshift('fc-day', view.calendar.theme.getClass('widgetContent'))
+    avClasses.unshift('fc-day', view.calendar.theme.getClass('widgetContent'))
+    apClasses.unshift('fc-day', view.calendar.theme.getClass('widgetContent'))
 
-    return '<td class="' + serviceClasses.join(' ') + '"' +
+    return '<td class="' + avClasses.join(' ') + '"' +
       (isDateValid ?
         ' data-date="' + date.format('YYYY-MM-DD') + '"' : // if date has a time, won't format it
         '') +
@@ -843,8 +879,9 @@ export default class ResourceGrid extends InteractiveDateComponent {
         ' ' + otherAttrs :
         '') +
       ' colspan = 1' +
+      ` width=${serviceCellWidth}` +
       '></td>' +
-      '<td class="' + eventClasses.join(' ') + '"' +
+      '<td class="' + apClasses.join(' ') + '"' +
       (isDateValid ?
         ' data-date="' + date.format('YYYY-MM-DD') + '"' : // if date has a time, won't format it
         '') +
@@ -866,7 +903,7 @@ export default class ResourceGrid extends InteractiveDateComponent {
   }
 
   computeColCnt() {
-    return this.resources.length * 2
+    return this.resources.length
   }
 
 }

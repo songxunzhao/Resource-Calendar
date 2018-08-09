@@ -868,6 +868,16 @@ export default abstract class View extends InteractiveDateComponent {
     })
   }
 
+  // Triggers handler to 'dayHover'
+  // Span has start/end of the hover area. Only the start is useful
+  triggerCellHover(footprint, dayEl, ev) {
+    let dateProfile = this.calendar.footprintToDateProfile(footprint) // abuse of "Event"DateProfile?
+
+    this.publiclyTrigger('cellHover', {
+      context: dayEl,
+      args: [ dateProfile.start, ev, footprint ]
+    })
+  }
 
   /* Date Utils
   ------------------------------------------------------------------------------------------------------------------*/

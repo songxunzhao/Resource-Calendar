@@ -1,5 +1,6 @@
 import { htmlEscape, cssToStr, proxy } from '../util'
 import EventRenderer from '../component/renderers/EventRenderer'
+// import * as $ from "jquery";
 
 /*
 Only handles foreground segs.
@@ -10,11 +11,10 @@ export default class ResourceGridEventRenderer extends EventRenderer {
   resourceGrid: any
 
 
-  constructor(timeGrid, fillRenderer) {
-    super(timeGrid, fillRenderer)
-    this.resourceGrid = timeGrid
+  constructor(resourceGrid, fillRenderer) {
+    super(resourceGrid, fillRenderer)
+    this.resourceGrid = resourceGrid
   }
-
 
   renderFgSegs(segs) {
     this.renderFgSegsIntoContainers(segs, this.resourceGrid.fgContainerEls)
@@ -26,7 +26,6 @@ export default class ResourceGridEventRenderer extends EventRenderer {
   renderFgSegsIntoContainers(segs, containerEls) {
     let segsByCol
     let col
-
     segsByCol = this.resourceGrid.groupSegsByCol(segs)
 
     for (col = 0; col < this.resourceGrid.colCnt; col++) {
@@ -70,9 +69,9 @@ export default class ResourceGridEventRenderer extends EventRenderer {
     let isResizableFromEnd = !disableResizing && seg.isEnd && view.isEventDefResizableFromEnd(eventDef)
     let classes = this.getSegClasses(seg, isDraggable, isResizableFromStart || isResizableFromEnd)
     let skinCss = cssToStr(this.getSkinCss(eventDef))
-    let codeCss = cssToStr(this.getCodeCss(eventDef))
-    let codeText = this.getCodeText(eventDef)
-    let eventType = this.getEventType(eventDef)
+    // let codeCss = cssToStr(this.getCodeCss(eventDef))
+    // let codeText = this.getCodeText(eventDef)
+    // let eventType = this.getEventType(eventDef)
     let timeText
     let fullTimeText // more verbose time text. for the print stylesheet
     let startTimeText // just the start time text
@@ -109,12 +108,6 @@ export default class ResourceGridEventRenderer extends EventRenderer {
         ) +
       '>' +
         '<div class="fc-content-wrapper">' +
-          (codeText && eventType !== 'bo' ?
-            '<div class="fc-code"' + ' style="' + codeCss + '">' +
-            htmlEscape(codeText) +
-            '</div>' :
-            ''
-          ) +
           '<div class="fc-content">' +
             (timeText ?
               '<div class="fc-time"' +
@@ -125,12 +118,9 @@ export default class ResourceGridEventRenderer extends EventRenderer {
               '</div>' :
               ''
               ) +
-            (eventDef.title ?
               '<div class="fc-title">' +
-                htmlEscape(eventDef.title) +
-              '</div>' :
-              ''
-              ) +
+                htmlEscape(eventDef.code) +
+              '</div>' +
           '</div>' +
         '</div>' +
         '<div class="fc-bg"/>' +
@@ -258,43 +248,59 @@ export default class ResourceGridEventRenderer extends EventRenderer {
     }
   }
 
-
   // Generates an object with CSS properties/values that should be applied to an event segment element.
   // Contains important positioning-related properties that should be applied to any event element, customized or not.
   generateFgSegHorizontalCss(seg) {
-    let shouldOverlap = this.opt('slotEventOverlap')
-    let backwardCoord = seg.backwardCoord // the left side if LTR. the right side if RTL. floating-point
-    let forwardCoord = seg.forwardCoord // the right side if LTR. the left side if RTL. floating-point
     let props = this.resourceGrid.generateSegVerticalCss(seg) // get top/bottom first
-    let isRTL = this.resourceGrid.isRTL
-    let left // amount of space from left edge, a fraction of the total width
-    let right // amount of space from right edge, a fraction of the total width
-
-    if (shouldOverlap) {
-      // double the width, but don't go beyond the maximum forward coordinate (1.0)
-      forwardCoord = Math.min(1, backwardCoord + (forwardCoord - backwardCoord) * 2)
-    }
-
-    if (isRTL) {
-      left = 1 - forwardCoord
-      right = backwardCoord
-    } else {
-      left = backwardCoord
-      right = 1 - forwardCoord
-    }
-
+    let eventDef = seg.footprint.eventDef
+    let serviceCellWidth = this.opt('serviceCellWidth')
     props.zIndex = seg.level + 1 // convert from 0-base to 1-based
-    props.left = left * 100 + '%'
-    props.right = right * 100 + '%'
-
-    if (shouldOverlap && seg.forwardPressure) {
-      // add padding to the edge so that forward stacked events don't cover the resizer's icon
-      props[isRTL ? 'marginLeft' : 'marginRight'] = 10 * 2 // 10 is a guesstimate of the icon's width
+    if (this.getEventType(eventDef) === 'av') {
+      props.left = 0
+      props.width = serviceCellWidth + 'px'
+    } else if (this.getEventType(eventDef) === 'bo') {
+      props.left = 0
+      props.right = 0
+    } else {
+      props.left = serviceCellWidth + 'px'
+      props.right = 0
     }
 
     return props
   }
 
+  /* Override segment class definition */
+  getSegClasses(seg, isDraggable, isResizable) {
+    let eventDef = seg.footprint.eventDef
+    let eventType = this.getEventType(eventDef)
+    let classes = [
+      'fc-event',
+      seg.isStart ? 'fc-start' : 'fc-not-start',
+      seg.isEnd ? 'fc-end' : 'fc-not-end'
+    ].concat(this.getClasses(seg.footprint.eventDef))
+
+    if (isDraggable) {
+      classes.push('fc-draggable')
+    }
+    if (isResizable) {
+      classes.push('fc-resizable')
+    }
+
+    if (eventType === 'bo') {
+      classes.push('fc-bo-event')
+    } else if (eventType === 'av') {
+      classes.push('fc-av-event')
+    } else {
+      classes.push('fc-ap-event')
+    }
+
+    // event is currently selected? attach a className.
+    if (this.view.isEventDefSelected(seg.footprint.eventDef)) {
+      classes.push('fc-selected')
+    }
+
+    return classes
+  }
 }
 
 
