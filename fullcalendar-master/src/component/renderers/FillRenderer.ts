@@ -33,7 +33,7 @@ export default class FillRenderer { // use for highlight, background events, bus
     if (els) {
       this.reportEls(type, els)
     }
-
+    console.log(segs)
     return segs
   }
 

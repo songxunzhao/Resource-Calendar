@@ -26,18 +26,6 @@ export default class CellHovering extends Interaction {
       if (!component.shouldIgnoreMouse()) {
         dragListener.startInteraction(ev)
         dragListener.endInteraction(ev)
-
-        // let point = { left: getEvX(ev), top: getEvY(ev) }
-        // let hit = component.queryHit(point.left, point.top)
-        // let componentFootprint
-        //
-        // if (hit) {
-        //   componentFootprint = component.getSafeHitFootprint(hit)
-        // }
-        //
-        // if (componentFootprint) {
-        //   this.view.triggerCellHover(componentFootprint, component.getHitEl(hit), ev)
-        // }
       }
     })
   }

@@ -3598,6 +3598,23 @@
             url:'fmp://$/**FileName**.fmp12?script=**ScriptName**&param=ap379'}];
 
 
+
+    var leftButtonDown = false;
+
+    $(document).mousedown(function(e) {
+        // Left mouse button was pressed, set flag
+        if (e.which === 1) leftButtonDown = true
+    })
+
+    $(document).mouseup(function(e) {
+        // Left mouse button was released, clear flag
+        if (e.which === 1) leftButtonDown = false
+    })
+
+    function  tweakMouseMoveEvent(e) {
+        if(e.which === 1 && !leftButtonDown) e.which = 0;
+    }
+
     var elBody = $('body').append('<div class="tooltiptopicevent"></div>');
     var elTooltip = $('.tooltiptopicevent');
 
@@ -3648,14 +3665,18 @@
         selectable: true,
 
         cellHover: function (start, event, footprint) {
-            event.stopPropagation();
+            tweakMouseMoveEvent(event)
 
-            var resource = footprint.resource
+            if(event.which === 0) {
+                var resource = footprint.resource
 
-            elTooltip.show();
-            elTooltip.css('top', event.pageY + 10);
-            elTooltip.css('left', event.pageX + 20);
-            elTooltip.html(resource.title + '<br>' + start.format('hh:mm'));
+                event.stopPropagation();
+
+                elTooltip.show();
+                elTooltip.css('top', event.pageY + 10);
+                elTooltip.css('left', event.pageX + 20);
+                elTooltip.html(resource.title + '<br>' + start.format('hh:mm'));
+            }
         },
 
         eventResize: function( event, delta, revertFunc) {
