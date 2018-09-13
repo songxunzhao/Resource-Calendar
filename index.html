@@ -23,6 +23,9 @@
         font-size: 1em;
     }
 
+    body {
+        overflow: hidden;
+    }
 
     /* Colors
     --------------------------------------------------------------------------------------------------*/
@@ -71,6 +74,11 @@
     .fc-nonbusiness { /* default look for non-business-hours areas */
         /* will inherit .fc-bgevent's styles */
         background: #d7d7d7;
+    }
+
+    .fc-no-side-border {
+        border-left: none !important;
+        border-right: none !important;
     }
 
 
@@ -1082,6 +1090,23 @@
         border-bottom: 0; /* each cell is responsible for its top border */
     }
 
+    .fc-axis-table td.fc-axis{
+        height: 1.5em;
+    }
+
+    .fc-axis-table tr:first-child td {
+        border-top: 0;
+    }
+
+    .fc-axis-scroll {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        overflow: hidden;
+    }
+
     .fc-time-grid .fc-slats .fc-minor td {
         border-top-style: dotted;
     }
@@ -1450,6 +1475,7 @@
     .fc-time-fullhour {
         font-weight: 600;
     }
+
     </style>
     <style> /*! jQuery UI - v1.12.1 - 2017-04-24
 * http://jqueryui.com
@@ -3611,8 +3637,12 @@
         if (e.which === 1) leftButtonDown = false
     })
 
-    function  tweakMouseMoveEvent(e) {
+    function tweakMouseMoveEvent(e) {
         if(e.which === 1 && !leftButtonDown) e.which = 0;
+    }
+
+    function getCalendarHeight() {
+        return $(window).height() - 100;
     }
 
     var elBody = $('body').append('<div class="tooltiptopicevent"></div>');
@@ -3622,14 +3652,18 @@
         elTooltip.hide();
     });
 
+    $(window).resize(function () {
+        $('#calendar').fullCalendar('option', 'height', getCalendarHeight());
+    });
+
     $('#calendar').fullCalendar({
         header: {
             left: 'prev,next today',
             center: 'title',
             right: 'month,schedulerDay,schedulerWeek'
         },
-        height:800,
-
+        height: getCalendarHeight(),
+        minContentWidth: 800,
         defaultView: 'schedulerDay',
         eventColor: '',
         allDaySlot: false,

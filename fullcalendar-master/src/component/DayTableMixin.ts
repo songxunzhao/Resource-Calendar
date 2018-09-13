@@ -115,7 +115,6 @@ export default class DayTableMixin extends Mixin implements DayTableInterface {
 
   // Returns the number of day cells, chronologically, from the first of the grid (0-based)
   getCellDayIndex(row, col) {
-    console.log(row, col)
     return row * this.daysPerRow + this.getColDayIndex(col)
   }
 

@@ -33,7 +33,6 @@ export default class ResourceGrid extends InteractiveDateComponent {
   daysPerRow: DayTableInterface['daysPerRow']
   colCnt: DayTableInterface['colCnt']
   updateDayTable: DayTableInterface['updateDayTable']
-  renderBgTrHtml: DayTableInterface['renderBgTrHtml']
   bookendCells: DayTableInterface['bookendCells']
   getCellDate: DayTableInterface['getCellDate']
 
@@ -48,6 +47,8 @@ export default class ResourceGrid extends InteractiveDateComponent {
   labelInterval: any // duration of how often a label should be displayed for a slot
 
   headContainerEl: any // div that hold's the date header
+  bodyContainerEl: any // div that hold's the body
+
   colEls: any // cells elements in the day-row background
   slatContainerEl: any // div that wraps all the slat rows
   slatEls: any // elements running horizontally across all columns
@@ -288,38 +289,22 @@ export default class ResourceGrid extends InteractiveDateComponent {
     let view = this.view
     let calendar = view.calendar
     let theme = calendar.theme
-    let isRTL = this.isRTL
     let dateProfile = this.dateProfile
     let html = ''
     let slotTime = moment.duration(+dateProfile.minTime) // wish there was .clone() for durations
     let slotIterator = moment.duration(0)
     let slotDate // will be on the view's first day, but we only care about its time
     let isLabeled
-    let axisHtml
-    let isFullHourLabel
 
     // Calculate the time for each slot
     while (slotTime < dateProfile.maxTime) {
       slotDate = calendar.msToUtcMoment(dateProfile.renderUnzonedRange.startMs).time(slotTime)
       isLabeled = isInt(divideDurationByDuration(slotIterator, this.labelInterval))
-      isFullHourLabel = slotDate.minute() === 0 && slotDate.second() === 0
-      axisHtml =
-        '<td class="fc-axis fc-time ' + theme.getClass('widgetContent') + '" ' + view.axisStyleAttr() + '>' +
-        (isLabeled ?
-            '<span class="' + (isFullHourLabel ? 'fc-time-fullhour' : '') + '">' + // for matchCellWidths
-            htmlEscape(this.renderLabel(slotDate)) +
-            '</span>' :
-            ''
-        ) +
-        '</td>'
-
       html +=
         '<tr data-time="' + slotDate.format('HH:mm:ss') + '"' +
         (isLabeled ? '' : ' class="fc-minor"') +
         '>' +
-        (!isRTL ? axisHtml : '') +
         '<td class="' + theme.getClass('widgetContent') + '"/>' +
-        (isRTL ? axisHtml : '') +
         '</tr>'
 
       slotTime.add(this.slotDuration)
@@ -333,7 +318,7 @@ export default class ResourceGrid extends InteractiveDateComponent {
   renderColumns() {
     let dateProfile = this.dateProfile
     let theme = this.view.calendar.theme
-
+    let bodyRow = this.bodyContainerEl.find('>tr')
     this.dayRanges = this.dayDates.map(function(dayDate) {
       return new UnzonedRange(
         dayDate.clone().add(dateProfile.minTime),
@@ -344,6 +329,9 @@ export default class ResourceGrid extends InteractiveDateComponent {
     if (this.headContainerEl) {
       this.headContainerEl.html(this.renderHeadHtml())
     }
+
+    (this as any).isRTL ? bodyRow.append(this.renderIntroDateHtml())
+      : bodyRow.prepend(this.renderIntroDateHtml())
 
     this.el.find('> .fc-bg').html(
       '<table class="' + theme.getClass('tableGrid') + '">' +
@@ -361,6 +349,56 @@ export default class ResourceGrid extends InteractiveDateComponent {
     this.renderContentSkeleton()
   }
 
+  renderIntroDateHtml() {
+    let view = this.view
+    let calendar = view.calendar
+    let theme = calendar.theme
+    let dateProfile = this.dateProfile
+    let html = ''
+    let slotTime = moment.duration(+dateProfile.minTime) // wish there was .clone() for durations
+    let slotIterator = moment.duration(0)
+    let slotDate // will be on the view's first day, but we only care about its time
+    let isLabeled
+    let axisHtml
+    let isFullHourLabel
+
+    // Calculate the time for each slot
+    while (slotTime < dateProfile.maxTime) {
+      slotDate = calendar.msToUtcMoment(dateProfile.renderUnzonedRange.startMs).time(slotTime)
+      isLabeled = isInt(divideDurationByDuration(slotIterator, this.labelInterval))
+      isFullHourLabel = slotDate.minute() === 0 && slotDate.second() === 0
+      axisHtml =
+        '<td class=' + '"fc-axis fc-time fc-no-side-border ' + theme.getClass('widgetContent') +'"' + view.axisStyleAttr() + '>' +
+        (isLabeled ?
+            '<span class="' + (isFullHourLabel ? 'fc-time-fullhour' : '') + '">' + // for matchCellWidths
+            htmlEscape(this.renderLabel(slotDate)) +
+            '</span>' :
+            ''
+        ) +
+        '</td>'
+
+      html +=
+        '<tr data-time="' + slotDate.format('HH:mm:ss') + '"' +
+        (isLabeled ? '' : ' class="fc-minor"') +
+        '>' +
+        axisHtml +
+        '</tr>'
+
+      slotTime.add(this.slotDuration)
+      slotIterator.add(this.slotDuration)
+    }
+    html =
+      '<td class="' + theme.getClass('widgetContent') + '" style="position: relative;">' +
+      '<div class="fc-axis-scroll">' +
+      '<table class="fc-axis-table" style="position: absolute; top: 0; left: 0;">' +
+      html +
+      '</table>' +
+      '</div>' +
+      '</td>'
+    return html
+    // return this.renderBgIntroHtml(0)
+
+  }
 
   unrenderColumns() {
     this.unrenderContentSkeleton()
@@ -405,7 +443,7 @@ export default class ResourceGrid extends InteractiveDateComponent {
     this.highlightContainerEls = skeletonEl.find('.fc-highlight-container')
     this.businessContainerEls = skeletonEl.find('.fc-business-container')
 
-    this.bookendCells(skeletonEl.find('tr')) // TODO: do this on string level
+    // this.bookendCells(skeletonEl.find('tr')) // TODO: do this on string level
     this.el.append(skeletonEl)
   }
 
@@ -788,17 +826,15 @@ export default class ResourceGrid extends InteractiveDateComponent {
   renderHeadTrHtml() {
     return '' +
       '<tr>' +
-      ((this as any).isRTL ? '' : this.renderHeadIntroHtml()) +
+      // ((this as any).isRTL ? '' : this.renderHeadIntroHtml()) +
       this.renderHeadResourceCellsHtml() +
-      ((this as any).isRTL ? this.renderHeadIntroHtml() : '') +
+      // ((this as any).isRTL ? this.renderHeadIntroHtml() : '') +
       '</tr>'
   }
 
   renderHeadIntroHtml() {
     return this.renderIntroHtml() // fall back to generic
   }
-
-  renderIntroHtml() {}
 
   renderHeadResourceCellsHtml() {
     let htmls = []
@@ -859,6 +895,9 @@ export default class ResourceGrid extends InteractiveDateComponent {
     return htmls.join('')
   }
 
+  renderIntroHtml() {
+    return ''
+  }
 
   renderBgCellHtml(resource, date, otherAttrs) {
     let t = (this as any)
@@ -906,6 +945,18 @@ export default class ResourceGrid extends InteractiveDateComponent {
     return this.resources.length
   }
 
+  renderBgTrHtml(row) {
+    return '' +
+      '<tr>' +
+      // ((this as any).isRTL ? '' : this.renderBgIntroHtml(row)) +
+      this.renderBgCellsHtml(row) +
+      // ((this as any).isRTL ? this.renderBgIntroHtml(row) : '') +
+      '</tr>'
+  }
+
+  renderBgIntroHtml(row) {
+    return this.renderIntroHtml() // fall back to generic
+  }
 }
 
 ResourceGrid.prototype.eventRendererClass = ResourceGridEventRenderer

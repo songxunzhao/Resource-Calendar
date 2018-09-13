@@ -73,6 +73,7 @@ export default class SchedulerView extends View {
     this.el.find('.fc-body > tr > td').append(resourceGridWrapEl)
 
     this.resourceGrid.headContainerEl = this.el.find('.fc-head-container')
+    this.resourceGrid.bodyContainerEl = this.el.find('.fc-body')
     this.resourceGrid.setElement(resourceGridEl)
 
     if (this.dayGrid) {
@@ -81,6 +82,13 @@ export default class SchedulerView extends View {
       // have the day-grid extend it's coordinate area over the <hr> dividing the two grids
       this.dayGrid.bottomCoordPadding = this.dayGrid.el.next('hr').outerHeight()
     }
+  }
+
+  renderHeadIntroHtml() {
+    let view = this
+    let calendar = view.calendar
+
+    return '<td class="fc-axis ' + calendar.theme.getClass('widgetHeader') + '" ' + view.axisStyleAttr() + '></td>'
   }
 
   unrenderSkeleton() {
@@ -102,6 +110,7 @@ export default class SchedulerView extends View {
       (this.opt('columnHeader') ?
           '<thead class="fc-head">' +
           '<tr>' +
+          this.renderHeadIntroHtml() +
           '<td class="fc-head-container ' + theme.getClass('widgetHeader') + '">&nbsp;</td>' +
           '</tr>' +
           '</thead>' :
