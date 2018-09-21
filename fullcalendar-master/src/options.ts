@@ -29,7 +29,7 @@ export const globalDefaults = {
   // editable: false,
 
   // nowIndicator: false,
-
+  minContentWidth: null,
   scrollTime: '06:00:00',
   minTime: '00:00:00',
   maxTime: '24:00:00',

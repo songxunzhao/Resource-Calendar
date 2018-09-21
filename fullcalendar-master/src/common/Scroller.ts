@@ -96,13 +96,28 @@ export default class Scroller extends Class {
   }
 
 
+  setWidth(width) {
+    this.scrollEl.width(width)
+  }
+
+
   getScrollTop() {
     return this.scrollEl.scrollTop()
   }
 
 
+  getScrollLeft() {
+    return this.scrollEl.scrollLeft()
+  }
+
+
   setScrollTop(top) {
     this.scrollEl.scrollTop(top)
+  }
+
+
+  setScrollLeft(left) {
+    this.scrollEl.scrollLeft(left)
   }
 
 

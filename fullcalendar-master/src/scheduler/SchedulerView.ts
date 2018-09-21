@@ -4,7 +4,7 @@ import {
   compensateScroll,
   copyOwnProps,
   matchCellWidths,
-  subtractInnerElHeight,
+  subtractInnerElHeight, subtractInnerElWidth,
   uncompensateScroll
 } from '../util'
 import * as $ from 'jquery'
@@ -36,7 +36,7 @@ export default class SchedulerView extends View {
 
 
     this.scroller = new Scroller({
-      overflowX: 'hidden',
+      overflowX: 'auto',
       overflowY: 'auto'
     })
   }
@@ -62,7 +62,9 @@ export default class SchedulerView extends View {
   renderSkeleton() {
     let resourceGridWrapEl
     let resourceGridEl
+    let minContentWidth = this.opt('minContentWidth')
 
+    console.log(minContentWidth)
     this.el.addClass('fc-scheduler-view').html(this.renderSkeletonHtml())
 
     this.scroller.render()
@@ -82,6 +84,7 @@ export default class SchedulerView extends View {
       // have the day-grid extend it's coordinate area over the <hr> dividing the two grids
       this.dayGrid.bottomCoordPadding = this.dayGrid.el.next('hr').outerHeight()
     }
+
   }
 
   renderHeadIntroHtml() {
@@ -228,6 +231,11 @@ export default class SchedulerView extends View {
       subtractInnerElHeight(this.el, this.scroller.el) // everything that's NOT the scroller
   }
 
+  // given a desired total width of the view, returns what the width of the scroller should be
+  computeScrollerWidth(totalWidth) {
+    return totalWidth -
+      subtractInnerElWidth(this.el, this.scroller.el)
+  }
 
   /* Scroll
   ------------------------------------------------------------------------------------------------------------------*/

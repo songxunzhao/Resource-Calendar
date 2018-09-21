@@ -236,12 +236,27 @@ export default class ResourceGrid extends InteractiveDateComponent {
     this.updateDayTable()
     this.renderSlats()
     this.renderColumns()
+    this.bindScrolling()
   }
 
+  bindScrolling() {
+    let timeAxis = $('.fc-axis-table')
+    let resourceAxis = $('.fc-resource-table')
+
+    this.view.scroller.el.scroll(function () {
+      timeAxis.css({top: -$(this).scrollTop()})
+      resourceAxis.css({left: -$(this).scrollLeft()})
+    })
+  }
+
+  unbindScrolling() {
+    this.view.scroller.el.off('scroll')
+  }
 
   unrenderDates() {
     // this.unrenderSlats(); // don't need this because repeated .html() calls clear
     this.unrenderColumns()
+    this.unbindScrolling()
   }
 
 
@@ -811,10 +826,12 @@ export default class ResourceGrid extends InteractiveDateComponent {
   // Render header html
   renderHeadHtml() {
     let theme = (this as any).view.calendar.theme
+    let minContentWidth = this.opt('minContentWidth')
 
+    console.log(minContentWidth)
     return '' +
-      '<div class="fc-row ' + theme.getClass('headerRow') + '">' +
-      '<table class="' + theme.getClass('tableGrid') + '">' +
+      '<div class="fc-row fc-resource-scroll ' + theme.getClass('headerRow') + '">' +
+      '<table class="fc-resource-table ' + theme.getClass('tableGrid') + '">' +
       '<thead>' +
       this.renderHeadTrHtml() +
       '</thead>' +

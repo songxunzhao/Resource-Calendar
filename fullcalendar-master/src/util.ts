@@ -147,6 +147,20 @@ export function subtractInnerElHeight(outerEl, innerEl) {
 }
 
 
+export function subtractInnerElWidth(outerEl, innerEl) {
+  let both = outerEl.add(innerEl)
+  let diff
+
+  both.css({
+    position: 'relative',
+    left: -1
+  })
+  diff = outerEl.outerWidth() - innerEl.outerWidth()
+  both.css({ position: '', left: ''})
+
+  return diff
+}
+
 /* Element Geom Utilities
 ----------------------------------------------------------------------------------------------------------------------*/
 
