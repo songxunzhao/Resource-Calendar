@@ -48,6 +48,7 @@ export default class ResourceGrid extends InteractiveDateComponent {
 
   headContainerEl: any // div that hold's the date header
   bodyContainerEl: any // div that hold's the body
+  introDateEl: any
 
   colEls: any // cells elements in the day-row background
   slatContainerEl: any // div that wraps all the slat rows
@@ -311,6 +312,7 @@ export default class ResourceGrid extends InteractiveDateComponent {
     let slotDate // will be on the view's first day, but we only care about its time
     let isLabeled
 
+    console.log("Render widget content")
     // Calculate the time for each slot
     while (slotTime < dateProfile.maxTime) {
       slotDate = calendar.msToUtcMoment(dateProfile.renderUnzonedRange.startMs).time(slotTime)
@@ -345,8 +347,13 @@ export default class ResourceGrid extends InteractiveDateComponent {
       this.headContainerEl.html(this.renderHeadHtml())
     }
 
-    (this as any).isRTL ? bodyRow.append(this.renderIntroDateHtml())
-      : bodyRow.prepend(this.renderIntroDateHtml())
+    if((this as any).isRTL) {
+      bodyRow.append(this.renderIntroDateHtml())
+      this.introDateEl = bodyRow.children()[0]
+    } else {
+      bodyRow.prepend(this.renderIntroDateHtml())
+      this.introDateEl = bodyRow.children()[0]
+    }
 
     this.el.find('> .fc-bg').html(
       '<table class="' + theme.getClass('tableGrid') + '">' +
@@ -364,7 +371,7 @@ export default class ResourceGrid extends InteractiveDateComponent {
     this.renderContentSkeleton()
   }
 
-  renderIntroDateHtml() {
+  renderIntroDateHtml(): string {
     let view = this.view
     let calendar = view.calendar
     let theme = calendar.theme
@@ -402,6 +409,7 @@ export default class ResourceGrid extends InteractiveDateComponent {
       slotTime.add(this.slotDuration)
       slotIterator.add(this.slotDuration)
     }
+
     html =
       '<td class="' + theme.getClass('widgetContent') + '" style="position: relative;">' +
       '<div class="fc-axis-scroll">' +
@@ -410,15 +418,11 @@ export default class ResourceGrid extends InteractiveDateComponent {
       '</table>' +
       '</div>' +
       '</td>'
+
     return html
     // return this.renderBgIntroHtml(0)
 
   }
-
-  unrenderColumns() {
-    this.unrenderContentSkeleton()
-  }
-
 
   /* Content Skeleton
   ------------------------------------------------------------------------------------------------------------------*/
@@ -429,7 +433,7 @@ export default class ResourceGrid extends InteractiveDateComponent {
     let cellHtml = ''
     let i
     let skeletonEl
-
+    console.trace()
     for (i = 0; i < this.colCnt; i++) {
       cellHtml +=
         '<td>' +
@@ -476,6 +480,17 @@ export default class ResourceGrid extends InteractiveDateComponent {
     }
   }
 
+  unrenderIntroDateHtml() {
+    if (this.introDateEl) {
+      this.introDateEl.remove()
+      this.introDateEl = null
+    }
+  }
+
+  unrenderColumns() {
+    this.unrenderIntroDateHtml()
+    this.unrenderContentSkeleton()
+  }
 
   // Given a flat array of segments, return an array of sub-arrays, grouped by each segment's col
   groupSegsByCol(segs) {
@@ -924,6 +939,7 @@ export default class ResourceGrid extends InteractiveDateComponent {
     let apClasses = t.getResourceClasses(date, false)
     let serviceCellWidth = this.opt('serviceCellWidth')
 
+    console.log("Render widget content")
     avClasses.unshift('fc-day', view.calendar.theme.getClass('widgetContent'))
     apClasses.unshift('fc-day', view.calendar.theme.getClass('widgetContent'))
 

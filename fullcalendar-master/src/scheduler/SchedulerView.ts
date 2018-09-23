@@ -62,9 +62,8 @@ export default class SchedulerView extends View {
   renderSkeleton() {
     let resourceGridWrapEl
     let resourceGridEl
-    let minContentWidth = this.opt('minContentWidth')
+    // let minContentWidth = this.opt('minContentWidth')
 
-    console.log(minContentWidth)
     this.el.addClass('fc-scheduler-view').html(this.renderSkeletonHtml())
 
     this.scroller.render()
@@ -84,7 +83,7 @@ export default class SchedulerView extends View {
       // have the day-grid extend it's coordinate area over the <hr> dividing the two grids
       this.dayGrid.bottomCoordPadding = this.dayGrid.el.next('hr').outerHeight()
     }
-
+    console.log("render skeleton")
   }
 
   renderHeadIntroHtml() {
@@ -108,6 +107,7 @@ export default class SchedulerView extends View {
   // The day-grid and time-grid components will render inside containers defined by this HTML.
   renderSkeletonHtml() {
     let theme = this.calendar.theme
+    console.log("Render widget content")
     return '' +
       '<table class="' + theme.getClass('tableGrid') + '">' +
       (this.opt('columnHeader') ?
@@ -375,7 +375,7 @@ schedulerResourceGridMethods = {
   renderBgIntroHtml() {
     let view = this.view
     let calendar = view.calendar
-
+    console.log("Render widget content")
     return '<td class="fc-axis ' + calendar.theme.getClass('widgetContent') + '" ' + view.axisStyleAttr() + '></td>'
   },
   renderIntroHtml() {
