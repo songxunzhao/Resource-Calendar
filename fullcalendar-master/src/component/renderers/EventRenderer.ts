@@ -142,6 +142,7 @@ export default class EventRenderer {
 
 
   renderBgSegs(segs) {
+
     if (this.fillRenderer) {
       this.fillRenderer.renderSegs('bgEvent', segs, {
         getClasses: (seg) => {

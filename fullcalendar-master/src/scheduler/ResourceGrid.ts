@@ -3,7 +3,6 @@ import * as moment from 'moment'
 import { isInt, divideDurationByDuration, htmlEscape } from '../util'
 import InteractiveDateComponent from '../component/InteractiveDateComponent'
 import BusinessHourRenderer from '../component/renderers/BusinessHourRenderer'
-import StandardInteractionsMixin from '../component/interactions/StandardInteractionsMixin'
 import { default as DayTableMixin, DayTableInterface } from '../component/DayTableMixin'
 import CoordCache from '../common/CoordCache'
 import UnzonedRange from '../models/UnzonedRange'
@@ -12,6 +11,7 @@ import ResourceGridEventRenderer from './ResourceGridEventRenderer'
 import ResourceGridHelperRenderer from './ResourceGridHelperRenderer'
 import ResourceGridFillRenderer from './ResourceGridFillRenderer'
 import ResourceFootprint from '../models/ResourceFootprint'
+import SchedulerInteractionMixin from "./interactions/SchedulerInteractionMixin";
 
 /* A component that renders one or more columns of vertical time slots
 ----------------------------------------------------------------------------------------------------------------------*/
@@ -28,7 +28,6 @@ let SCHEDULER_STOCK_SUB_DURATIONS = [
 ]
 
 export default class ResourceGrid extends InteractiveDateComponent {
-
   dayDates: DayTableInterface['dayDates']
   daysPerRow: DayTableInterface['daysPerRow']
   colCnt: DayTableInterface['colCnt']
@@ -87,10 +86,12 @@ export default class ResourceGrid extends InteractiveDateComponent {
     let i
 
     for (i = 0; i < segs.length; i++) {
-      if (this.isRTL) {
-        segs[i].col = this.daysPerRow - 1 - segs[i].dayIndex
-      } else {
-        segs[i].col = segs[i].dayIndex
+      segs[i].col = 0
+    }
+
+    if(componentFootprint.resource) {
+      for (i = 0; i < segs.length; i++) {
+        segs[i].col = this.resourceIDToCol(componentFootprint.resource.id)
       }
     }
 
@@ -311,8 +312,7 @@ export default class ResourceGrid extends InteractiveDateComponent {
     let slotIterator = moment.duration(0)
     let slotDate // will be on the view's first day, but we only care about its time
     let isLabeled
-
-    console.log("Render widget content")
+    
     // Calculate the time for each slot
     while (slotTime < dateProfile.maxTime) {
       slotDate = calendar.msToUtcMoment(dateProfile.renderUnzonedRange.startMs).time(slotTime)
@@ -508,6 +508,15 @@ export default class ResourceGrid extends InteractiveDateComponent {
     return segsByCol
   }
 
+  resourceIDToCol(resourceID) {
+    for(let i = 0; i < this.resources.length; i ++) {
+      if(resourceID == this.resources[i].id ) {
+        return i
+      }
+    }
+
+    return 0
+  }
 
   // Given segments grouped by column, insert the segments' elements into a parallel array of container
   // elements, each living within a column.
@@ -749,7 +758,6 @@ export default class ResourceGrid extends InteractiveDateComponent {
     start.time(time)
     end = start.clone().add(this.snapDuration)
     resource = this.getCellResource(hit.snap, hit.col)
-
     return new ResourceFootprint(
       new UnzonedRange(start, end),
       false, // all-day?,
@@ -843,7 +851,6 @@ export default class ResourceGrid extends InteractiveDateComponent {
     let theme = (this as any).view.calendar.theme
     let minContentWidth = this.opt('minContentWidth')
 
-    console.log(minContentWidth)
     return '' +
       '<div class="fc-row fc-resource-scroll ' + theme.getClass('headerRow') + '">' +
       '<table class="fc-resource-table ' + theme.getClass('tableGrid') + '">' +
@@ -939,7 +946,6 @@ export default class ResourceGrid extends InteractiveDateComponent {
     let apClasses = t.getResourceClasses(date, false)
     let serviceCellWidth = this.opt('serviceCellWidth')
 
-    console.log("Render widget content")
     avClasses.unshift('fc-day', view.calendar.theme.getClass('widgetContent'))
     apClasses.unshift('fc-day', view.calendar.theme.getClass('widgetContent'))
 
@@ -997,5 +1003,5 @@ ResourceGrid.prototype.businessHourRendererClass = BusinessHourRenderer
 ResourceGrid.prototype.helperRendererClass = ResourceGridHelperRenderer
 ResourceGrid.prototype.fillRendererClass = ResourceGridFillRenderer
 
-StandardInteractionsMixin.mixInto(ResourceGrid)
+SchedulerInteractionMixin.mixInto(ResourceGrid)
 DayTableMixin.mixInto(ResourceGrid)

@@ -34,7 +34,7 @@ export default abstract class InteractiveDateComponent extends DateComponent {
   constructor(_view?, _options?) {
     super(_view, _options)
 
-    if (this.dateSelectingClass) {
+    if (this.dateClickingClass) {
       this.dateClicking = new this.dateClickingClass(this)
     }
 

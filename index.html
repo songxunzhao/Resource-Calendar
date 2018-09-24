@@ -3721,6 +3721,8 @@
                 elTooltip.css('top', event.pageY + 10);
                 elTooltip.css('left', event.pageX + 20);
                 elTooltip.html(resource.title + '<br>' + start.format('hh:mm'));
+
+                event.stopPropagation();
             }
         },
 
