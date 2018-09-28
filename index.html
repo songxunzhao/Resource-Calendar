@@ -3659,10 +3659,16 @@
     }
 
     $('body').append('<div class="tooltiptopicevent"></div>');
+
     var elTooltip = $('.tooltiptopicevent');
+    var showTooltip = false;
 
     $(document).on('mousemove', function() {
-        elTooltip.hide();
+        if(showTooltip) {
+            showTooltip = false;
+        } else {
+            elTooltip.hide();
+        }
     });
 
     $(window).resize(function () {
@@ -3722,7 +3728,7 @@
                 elTooltip.css('left', event.pageX + 20);
                 elTooltip.html(resource.title + '<br>' + start.format('hh:mm'));
 
-                event.stopPropagation();
+                showTooltip = true;
             }
         },
 
@@ -3754,12 +3760,12 @@
 
             elTooltip.show();
             elTooltip.html(data.tooltip)
-
+            showTooltip = true;
             $(this).mousemove(function (e) {
-                e.stopPropagation();
                 $(this).css('z-index', 10000);
                 elTooltip.css('top', e.pageY + 10);
                 elTooltip.css('left', e.pageX + 20);
+                showTooltip = true;
             });
         },
 

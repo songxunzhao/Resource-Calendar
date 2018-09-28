@@ -11,7 +11,7 @@ import ResourceGridEventRenderer from './ResourceGridEventRenderer'
 import ResourceGridHelperRenderer from './ResourceGridHelperRenderer'
 import ResourceGridFillRenderer from './ResourceGridFillRenderer'
 import ResourceFootprint from '../models/ResourceFootprint'
-import SchedulerInteractionMixin from "./interactions/SchedulerInteractionMixin";
+import SchedulerInteractionMixin from './interactions/SchedulerInteractionMixin'
 
 /* A component that renders one or more columns of vertical time slots
 ----------------------------------------------------------------------------------------------------------------------*/
@@ -89,7 +89,7 @@ export default class ResourceGrid extends InteractiveDateComponent {
       segs[i].col = 0
     }
 
-    if(componentFootprint.resource) {
+    if (componentFootprint.resource) {
       for (i = 0; i < segs.length; i++) {
         segs[i].col = this.resourceIDToCol(componentFootprint.resource.id)
       }
@@ -246,8 +246,8 @@ export default class ResourceGrid extends InteractiveDateComponent {
     let resourceAxis = $('.fc-resource-table')
 
     this.view.scroller.el.scroll(function () {
-      timeAxis.css({top: -$(this).scrollTop()})
-      resourceAxis.css({left: -$(this).scrollLeft()})
+      timeAxis.css({ top: -$(this).scrollTop() })
+      resourceAxis.css({ left: -$(this).scrollLeft() })
     })
   }
 
@@ -312,7 +312,7 @@ export default class ResourceGrid extends InteractiveDateComponent {
     let slotIterator = moment.duration(0)
     let slotDate // will be on the view's first day, but we only care about its time
     let isLabeled
-    
+
     // Calculate the time for each slot
     while (slotTime < dateProfile.maxTime) {
       slotDate = calendar.msToUtcMoment(dateProfile.renderUnzonedRange.startMs).time(slotTime)
@@ -347,7 +347,7 @@ export default class ResourceGrid extends InteractiveDateComponent {
       this.headContainerEl.html(this.renderHeadHtml())
     }
 
-    if((this as any).isRTL) {
+    if ((this as any).isRTL) {
       bodyRow.append(this.renderIntroDateHtml())
       this.introDateEl = bodyRow.children()[0]
     } else {
@@ -390,7 +390,7 @@ export default class ResourceGrid extends InteractiveDateComponent {
       isLabeled = isInt(divideDurationByDuration(slotIterator, this.labelInterval))
       isFullHourLabel = slotDate.minute() === 0 && slotDate.second() === 0
       axisHtml =
-        '<td class=' + '"fc-axis fc-time fc-no-side-border ' + theme.getClass('widgetContent') +'"' + view.axisStyleAttr() + '>' +
+        '<td class=' + '"fc-axis fc-time fc-no-side-border ' + theme.getClass('widgetContent') + '"' + view.axisStyleAttr() + '>' +
         (isLabeled ?
             '<span class="' + (isFullHourLabel ? 'fc-time-fullhour' : '') + '">' + // for matchCellWidths
             htmlEscape(this.renderLabel(slotDate)) +
@@ -433,7 +433,7 @@ export default class ResourceGrid extends InteractiveDateComponent {
     let cellHtml = ''
     let i
     let skeletonEl
-    console.trace()
+
     for (i = 0; i < this.colCnt; i++) {
       cellHtml +=
         '<td>' +
@@ -509,8 +509,8 @@ export default class ResourceGrid extends InteractiveDateComponent {
   }
 
   resourceIDToCol(resourceID) {
-    for(let i = 0; i < this.resources.length; i ++) {
-      if(resourceID == this.resources[i].id ) {
+    for (let i = 0; i < this.resources.length; i ++) {
+      if (resourceID === this.resources[i].id ) {
         return i
       }
     }
@@ -849,7 +849,7 @@ export default class ResourceGrid extends InteractiveDateComponent {
   // Render header html
   renderHeadHtml() {
     let theme = (this as any).view.calendar.theme
-    let minContentWidth = this.opt('minContentWidth')
+    // let minContentWidth = this.opt('minContentWidth')
 
     return '' +
       '<div class="fc-row fc-resource-scroll ' + theme.getClass('headerRow') + '">' +

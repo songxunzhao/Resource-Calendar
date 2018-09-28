@@ -3,6 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="d14cc3f2-ca6e-4348-906e-8a29cac87039" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/common/HitDragListener.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/common/HitDragListener.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/component/interactions/EventResizing.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/component/interactions/EventResizing.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/scheduler/ResourceGrid.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/scheduler/ResourceGrid.ts" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -17,14 +20,15 @@
     <session id="-2019314725">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="25" />
+          <entry key="project.closed" value="27" />
           <entry key="project.open.time.10" value="2" />
           <entry key="project.open.time.11" value="3" />
+          <entry key="project.open.time.13" value="1" />
           <entry key="project.open.time.17" value="1" />
           <entry key="project.open.time.18" value="1" />
           <entry key="project.open.time.2" value="2" />
           <entry key="project.open.time.22" value="2" />
-          <entry key="project.open.time.23" value="1" />
+          <entry key="project.open.time.23" value="2" />
           <entry key="project.open.time.27" value="1" />
           <entry key="project.open.time.3" value="1" />
           <entry key="project.open.time.33" value="2" />
@@ -35,27 +39,27 @@
           <entry key="project.open.time.46" value="2" />
           <entry key="project.open.time.6" value="3" />
           <entry key="project.open.time.8" value="4" />
-          <entry key="project.opened" value="30" />
+          <entry key="project.opened" value="32" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts">
         <counts>
           <entry key="ESLintLanguageService" value="2" />
-          <entry key="TsLintLanguageService" value="29" />
-          <entry key="TypeScriptServerServiceImpl" value="29" />
+          <entry key="TsLintLanguageService" value="31" />
+          <entry key="TypeScriptServerServiceImpl" value="31" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="scss" value="117" />
-          <entry key="ts" value="10147" />
+          <entry key="ts" value="10160" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="HTML" value="2" />
           <entry key="SCSS" value="117" />
-          <entry key="TypeScript" value="10145" />
+          <entry key="TypeScript" value="10158" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -81,29 +85,32 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/component/DateComponent.ts">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="198">
-              <caret line="18" selection-start-line="18" selection-end-line="18" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/scheduler/ResourceGrid.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="8640">
-              <caret line="493" column="7" selection-start-line="493" selection-start-column="7" selection-end-line="493" selection-end-column="7" />
-              <folding>
-                <element signature="e#0#27#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="108">
+              <caret line="154" selection-start-line="154" selection-end-line="154" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/scheduler/ResourceGrid.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="92">
+              <caret line="163" column="30" selection-start-line="163" selection-start-column="30" selection-end-line="163" selection-end-column="30" />
+              <folding>
+                <element signature="e#0#27#0" expanded="true" />
+                <element signature="n#style#0;n#hr#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
+                <element signature="n#style#0;n#table#0;n#div#0;n#td#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/scheduler/scheduler.scss">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="306">
-              <caret line="17" column="20" lean-forward="true" selection-start-line="17" selection-start-column="20" selection-end-line="17" selection-end-column="20" />
+            <state relative-caret-position="396">
+              <caret line="22" column="14" selection-start-line="22" selection-start-column="14" selection-end-line="22" selection-end-column="14" />
             </state>
           </provider>
         </entry>
@@ -275,8 +282,8 @@
         <option value="$PROJECT_DIR$/src/component/DayTableMixin.ts" />
         <option value="$PROJECT_DIR$/src/scheduler/SchedulerView.ts" />
         <option value="$PROJECT_DIR$/src/basic/BasicView.ts" />
-        <option value="$PROJECT_DIR$/src/scheduler/ResourceGrid.ts" />
         <option value="$PROJECT_DIR$/src/scheduler/scheduler.scss" />
+        <option value="$PROJECT_DIR$/src/scheduler/ResourceGrid.ts" />
       </list>
     </option>
   </component>
@@ -384,7 +391,7 @@
   <component name="PropertiesComponent">
     <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file:///home/osboxes/Documents/usbenefit/html/fullcalendar-master/src/component/DateComponent.ts" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../../nsx-firewall/nsx-firewall-automation" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/.." />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.standard" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
@@ -486,16 +493,18 @@
       <workItem from="1536069887279" duration="18535000" />
       <workItem from="1536847248414" duration="1759000" />
       <workItem from="1536936815354" duration="96000" />
+      <workItem from="1538106056108" duration="1236000" />
+      <workItem from="1538148569732" duration="871000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="258196000" />
+    <option name="totallyTimeSpent" value="260303000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="67" y="25" width="1853" height="998" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4988764" visible="true" weight="0.1925844" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4988764" visible="true" weight="0.19701162" />
       <window_info id="npm" order="1" side_tool="true" />
       <window_info id="Gulp" order="2" side_tool="true" />
       <window_info id="Favorites" order="3" side_tool="true" />
@@ -809,18 +818,15 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/component/DateComponent.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="198">
-          <caret line="18" selection-start-line="18" selection-end-line="18" />
+        <state relative-caret-position="108">
+          <caret line="154" selection-start-line="154" selection-end-line="154" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/scheduler/ResourceGrid.ts">
+    <entry file="file://$PROJECT_DIR$/src/scheduler/scheduler.scss">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="8640">
-          <caret line="493" column="7" selection-start-line="493" selection-start-column="7" selection-end-line="493" selection-end-column="7" />
-          <folding>
-            <element signature="e#0#27#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="396">
+          <caret line="22" column="14" selection-start-line="22" selection-start-column="14" selection-end-line="22" selection-end-column="14" />
         </state>
       </provider>
     </entry>
@@ -876,10 +882,16 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/scheduler/scheduler.scss">
+    <entry file="file://$PROJECT_DIR$/src/scheduler/ResourceGrid.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="306">
-          <caret line="17" column="20" lean-forward="true" selection-start-line="17" selection-start-column="20" selection-end-line="17" selection-end-column="20" />
+        <state relative-caret-position="92">
+          <caret line="163" column="30" selection-start-line="163" selection-start-column="30" selection-end-line="163" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#27#0" expanded="true" />
+            <element signature="n#style#0;n#hr#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#td#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#table#0;n#div#0;n#td#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
