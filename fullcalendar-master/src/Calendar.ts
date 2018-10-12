@@ -170,7 +170,6 @@ export default class Calendar {
   // Given a view name for a custom view or a standard view, creates a ready-to-go View object
   instantiateView(viewType: string): View {
     let spec = this.viewSpecManager.getViewSpec(viewType)
-
     if (!spec) {
       throw new Error(`View type "${viewType}" is not valid`)
     }
@@ -483,6 +482,11 @@ export default class Calendar {
       newView = this.view =
         this.viewsByType[viewType] ||
         (this.viewsByType[viewType] = this.instantiateView(viewType))
+
+      if(newView.viewSpec.constraints) {
+        let constraintClass = newView.viewSpec.constraints
+        this.constraints = new constraintClass(this.eventManager, this)
+      }
 
       this.bindViewHandlers(newView)
 

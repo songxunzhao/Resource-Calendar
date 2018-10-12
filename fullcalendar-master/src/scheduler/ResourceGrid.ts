@@ -1,6 +1,6 @@
 import * as $ from 'jquery'
 import * as moment from 'moment'
-import { isInt, divideDurationByDuration, htmlEscape } from '../util'
+import {isInt, divideDurationByDuration, htmlEscape} from '../util'
 import InteractiveDateComponent from '../component/InteractiveDateComponent'
 import BusinessHourRenderer from '../component/renderers/BusinessHourRenderer'
 import { default as DayTableMixin, DayTableInterface } from '../component/DayTableMixin'
@@ -996,6 +996,9 @@ export default class ResourceGrid extends InteractiveDateComponent {
   renderBgIntroHtml(row) {
     return this.renderIntroHtml() // fall back to generic
   }
+
+  // --------------------- Event Resize/Drag Availability------------------------
+
 }
 
 ResourceGrid.prototype.eventRendererClass = ResourceGridEventRenderer
