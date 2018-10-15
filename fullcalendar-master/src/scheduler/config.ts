@@ -1,10 +1,10 @@
 import { defineView } from '../ViewRegistry'
 import SchedulerView from './SchedulerView'
-import Constraints from './Constraints'
+import SchedulerDayConstraints from './constraints/SchedulerDayConstraints'
+import SchedulerWeekConstraints from './constraints/SchedulerWeekConstraints'
 
 defineView('scheduler', {
   'class': SchedulerView,
-  'constraints': Constraints,
   defaults: {
     allDaySlot: true,
     slotDuration: '00:30:00',
@@ -14,10 +14,12 @@ defineView('scheduler', {
 
 defineView('schedulerDay', {
   type: 'scheduler',
+  constraints: SchedulerDayConstraints,
   duration: { days: 1 }
 })
 
 defineView('schedulerWeek', {
   type: 'scheduler',
+  constraints: SchedulerWeekConstraints,
   duration: { weeks: 1 }
 })

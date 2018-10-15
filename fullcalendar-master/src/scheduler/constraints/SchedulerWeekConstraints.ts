@@ -1,16 +1,16 @@
-import UnzonedRange from '../models/UnzonedRange'
-import ComponentFootprint from '../models/ComponentFootprint'
-import EventFootprint from '../models/event/EventFootprint'
-import EventDefParser from '../models/event/EventDefParser'
-import EventSource from '../models/event-source/EventSource'
+import UnzonedRange from '../../models/UnzonedRange'
+import ComponentFootprint from '../../models/ComponentFootprint'
+import EventFootprint from '../../models/event/EventFootprint'
+import EventDefParser from '../../models/event/EventDefParser'
+import EventSource from '../../models/event-source/EventSource'
 import {
   eventInstanceToEventRange,
   eventFootprintToComponentFootprint,
   eventRangeToEventFootprint
-} from '../models/event/util'
+} from '../../models/event/util'
 
 
-export default class Constraints {
+export default class SchedulerWeekConstraints {
 
   eventManager: any
   _calendar: any // discourage
@@ -82,7 +82,9 @@ export default class Constraints {
 
 
   isSelectionFootprintAllowed(componentFootprint) {
-    console.log('check selection')
+    console.log('check selection', componentFootprint)
+
+    console.log('event instances', this.eventManager.getEventInstances())
     let peerEventInstances = this.eventManager.getEventInstances()
     let peerEventRanges = peerEventInstances.map(eventInstanceToEventRange)
     let peerEventFootprints = this.eventRangesToEventFootprints(peerEventRanges)
@@ -121,6 +123,7 @@ export default class Constraints {
     let overlapEventFootprints // EventFootprint[]
 
     console.log(componentFootprint, peerEventFootprints, constraintVal, overlapVal, subjectEventInstance)
+
 
     if (constraintVal != null) {
       constraintFootprints = this.constraintValToFootprints(constraintVal, componentFootprint.isAllDay)
@@ -355,6 +358,8 @@ function isOverlapEventInstancesAllowed(overlapEventFootprints, subjectEventInst
   let overlapEventInstance
   let overlapEventDef
   let overlapVal
+
+  console.log('overlapping', overlapEventFootprints)
 
   for (i = 0; i < overlapEventFootprints.length; i++) {
     overlapEventInstance = overlapEventFootprints[i].eventInstance

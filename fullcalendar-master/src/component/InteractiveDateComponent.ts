@@ -336,7 +336,7 @@ export default abstract class InteractiveDateComponent extends DateComponent {
     let dateProfile = this.dateProfile
     let eventFootprints = this.eventRangesToEventFootprints(eventInstanceGroup.getAllEventRanges())
     let i
-
+    console.log('isExternalInstanceGroupAllowed')
     for (i = 0; i < eventFootprints.length; i++) {
       if (!dateProfile.validUnzonedRange.containsRange(eventFootprints[i].componentFootprint.unzonedRange)) {
         return false
