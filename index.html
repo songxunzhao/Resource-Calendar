@@ -3773,6 +3773,27 @@
 
             $(this).css('z-index', 8);
             elTooltip.hide();
+        },
+
+        eventOverlap: function (stillEvent, movingEvent) {
+            if(movingEvent.e === 'bo') {
+                return false;
+            } else if(stillEvent.e === 'bo'){
+                return false;
+            } else if(stillEvent.e === movingEvent.e) {
+                return false;
+            }
+
+            return true;
+        },
+
+        selectOverlap: function (event) {
+            var eventTypes = ['ap', 'bo']
+            if(eventTypes.indexOf(event.e) !== -1) {
+                console.log(event)
+                return false;
+            }
+            return true;
         }
 
     });
