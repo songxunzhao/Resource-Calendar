@@ -6,7 +6,8 @@ export default class ResourceGridFillRenderer extends FillRenderer {
   attachSegEls(type, segs) {
     let resourceGrid = this.component
     let containerEls
-
+    console.trace()
+    console.log(resourceGrid.businessContainerEls)
     // TODO: more efficient lookup
     if (type === 'bgEvent') {
       containerEls = resourceGrid.bgContainerEls
@@ -15,7 +16,7 @@ export default class ResourceGridFillRenderer extends FillRenderer {
     } else if (type === 'highlight') {
       containerEls = resourceGrid.highlightContainerEls
     }
-
+    console.log(segs)
     resourceGrid.updateSegVerticals(segs)
     resourceGrid.attachSegsByCol(resourceGrid.groupSegsByCol(segs), containerEls)
 

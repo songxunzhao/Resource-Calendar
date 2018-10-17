@@ -62,7 +62,7 @@ export default class SchedulerView extends View {
   renderSkeleton() {
     let resourceGridWrapEl
     let resourceGridEl
-    // let minContentWidth = this.opt('minContentWidth')
+
 
     this.el.addClass('fc-scheduler-view').html(this.renderSkeletonHtml())
 
@@ -347,6 +347,21 @@ export default class SchedulerView extends View {
 
   /* Selection
   ------------------------------------------------------------------------------------------------------------------*/
+  // Triggers handlers to 'select'
+  triggerSelect(footprint, ev?) {
+    let dateProfile = this.calendar.footprintToDateProfile(footprint) // abuse of "Event"DateProfile?
+
+    this.publiclyTrigger('select', {
+      context: this,
+      args: [
+        dateProfile.start,
+        dateProfile.end,
+        ev,
+        this,
+        footprint.resource
+      ]
+    })
+  }
 
 
   // Renders a visual indication of a selection

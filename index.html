@@ -24,7 +24,7 @@
     }
 
     body {
-        overflow: hidden;
+        overflow: auto;
     }
 
     /* Colors
@@ -521,7 +521,7 @@
     .fc-scroller > .fc-time-grid {
         position: relative; /* re-scope all positions */
         width: 100%; /* hack to force re-sizing this inner element when scrollbars appear/disappear */
-        min-width: 1000px;
+        min-width: 1000px; /*scroller min width, add horizontal scroll to grid */
     }
 
     /* Global Event Styles
@@ -824,7 +824,9 @@
 
     .fc-toolbar {
         text-align: center;
-        margin-bottom: 1em;
+        height: 0;
+        margin: 0;
+        /* margin-bottom: 1em; */
     }
 
     .fc-toolbar .fc-left {
@@ -1460,13 +1462,13 @@
 
     .fc-blockout {
         background:
-            repeating-linear-gradient(
-                    45deg,
-                    #606dbc,
-                    #606dbc 10px,
-                    #465298 10px,
-                    #465298 20px
-            );
+                repeating-linear-gradient(
+                        45deg,
+                        #606dbc,
+                        #606dbc 10px,
+                        #465298 10px,
+                        #465298 20px
+                );
     }
 
 
@@ -2805,15 +2807,13 @@
     </style>
     <style>
         body {
-            margin: 40px 10px;
+            margin: 0;
             padding: 0;
             font-family: "Helvetica Neue Light", "Helvetica Neue", Arial, sans-serif;
             font-size: 14px;
         }
 
         #calendar {
-
-            margin: 50px;
         }
 
         h2 {
@@ -3346,7 +3346,7 @@
         Y("x",Rd),Y("X",Ud),aa("X",function(a,b,c){c._d=new Date(1e3*parseFloat(a,10))}),aa("x",function(a,b,c){c._d=new Date(t(a))}),
 // Side effect imports
         a.version="2.14.1",b(rb),a.fn=Se,a.min=tb,a.max=ub,a.now=Fe,a.utc=j,a.unix=Jc,a.months=Pc,a.isDate=f,a.locale=Za,a.invalid=n,a.duration=Mb,a.isMoment=r,a.weekdays=Rc,a.parseZone=Kc,a.localeData=ab,a.isDuration=wb,a.monthsShort=Qc,a.weekdaysMin=Tc,a.defineLocale=$a,a.updateLocale=_a,a.locales=bb,a.weekdaysShort=Sc,a.normalizeUnits=J,a.relativeTimeRounding=id,a.relativeTimeThreshold=jd,a.calendarFormat=Tb,a.prototype=Se;var nf=a;return nf}); </script>
-<script src="./fullcalendar-master/dist/fullcalendar.js"></script>
+<script src="./fullcalendar-master/dist/fullcalendar.min.js"></script>
 <script> $(document).ready(function() {
     var resources = [
         {
@@ -3670,19 +3670,18 @@
             elTooltip.hide();
         }
     });
-
-    $(window).resize(function () {
-        $('#calendar').fullCalendar('option', 'height', getCalendarHeight());
-    });
-
-    $('#calendar').fullCalendar({
+    /*
+        $(window).resize(function () {
+            $('#calendar').fullCalendar('option', 'height', getCalendarHeight());
+        });
+    */
+    var fullCalendar = $('#calendar').fullCalendar({
         header: {
-            left: 'prev,next today',
-            center: 'title',
-            right: 'month,schedulerDay,schedulerWeek'
+            left: '',
+            center: '',
+            right: ''
         },
-        height: getCalendarHeight(),
-        minContentWidth: 1000,
+        height: 'auto',
         defaultView: 'schedulerDay',
         eventColor: '',
         allDaySlot: false,
@@ -3788,18 +3787,25 @@
         },
 
         selectOverlap: function (event) {
-            var eventTypes = ['ap', 'bo']
-            if(eventTypes.indexOf(event.e) !== -1) {
-                console.log(event)
-                return false;
-            }
-            return true;
+            var eventTypes = ['ap', 'bo'];
+
+            return eventTypes.indexOf(event.e) === -1;
+        },
+
+        select: function( start, end, jsEvent, view, resource ) {
+            var param = [resource.id, start, end]
+
+            // TODO: Deselect selection
+            fullCalendar.fullCalendar('unselect');
+
+            // TODO: call FMP
+            window.location = "FMP://$/Appt10_scroll_10_15.fmp12?script=event&param=" + param;
         }
 
     });
 
     document.onIdle = function() {
-        // window.location = "FMP://$/Appt10_scroll.fmp12?script=Rotate Code";
+        //window.location = "FMP://$/Appt10_scroll_10_15.fmp12?script=Rotate Code";
     }
 });
 </script>

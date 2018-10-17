@@ -849,7 +849,6 @@ export default class ResourceGrid extends InteractiveDateComponent {
   // Render header html
   renderHeadHtml() {
     let theme = (this as any).view.calendar.theme
-    // let minContentWidth = this.opt('minContentWidth')
 
     return '' +
       '<div class="fc-row fc-resource-scroll ' + theme.getClass('headerRow') + '">' +
