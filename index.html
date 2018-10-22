@@ -3658,6 +3658,26 @@
         return $(window).height() - 100;
     }
 
+    function getWindowScrollPosition() {
+        var limitX = Math.max( document.body.scrollWidth, document.body.offsetWidth,
+            document.documentElement.clientWidth, document.documentElement.scrollWidth, document.documentElement.offsetWidth )
+        var limitY = Math.max( document.body.scrollHeight, document.body.offsetHeight,
+            document.documentElement.clientHeight, document.documentElement.scrollHeight, document.documentElement.offsetHeight )
+
+        var doc = document.documentElement;
+        var left = (window.pageXOffset || doc.scrollLeft) - (doc.clientLeft || 0);
+        var top = (window.pageYOffset || doc.scrollTop)  - (doc.clientTop || 0);
+
+        var percentX = Math.floor(left / limitX * 100)
+        var percentY = Math.floor(top / limitY * 100)
+        return {
+            left: left,
+            top: top,
+            percentX: percentX, // Result in percentage
+            percentY: percentY
+        }
+    }
+
     $('body').append('<div class="tooltiptopicevent"></div>');
 
     var elTooltip = $('.tooltiptopicevent');
@@ -3670,11 +3690,7 @@
             elTooltip.hide();
         }
     });
-    /*
-        $(window).resize(function () {
-            $('#calendar').fullCalendar('option', 'height', getCalendarHeight());
-        });
-    */
+
     var fullCalendar = $('#calendar').fullCalendar({
         header: {
             left: '',
@@ -3793,7 +3809,8 @@
         },
 
         select: function( start, end, jsEvent, view, resource ) {
-            var param = [resource.id, start, end]
+            var scrollPos = getWindowScrollPosition();
+            var param = [resource.id, start, end, scrollPos.percentX, scrollPos.percentY];
 
             // TODO: Deselect selection
             fullCalendar.fullCalendar('unselect');
@@ -3805,7 +3822,9 @@
     });
 
     document.onIdle = function() {
-        //window.location = "FMP://$/Appt10_scroll_10_15.fmp12?script=Rotate Code";
+        var scrollPos = getWindowScrollPosition();
+        var param = [scrollPos.percentX, scrollPos.percentY];
+        window.location = "FMP://$/Appt10_scroll_10_15.fmp12?script=Rotate Code&param="+param;
     }
 });
 </script>
