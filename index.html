@@ -508,6 +508,9 @@
         border-top: 0;
     }
 
+    .fc-scheduler-view {
+        min-width: 1000px;
+    }
 
     /* Scrolling Container
     --------------------------------------------------------------------------------------------------*/
@@ -521,7 +524,7 @@
     .fc-scroller > .fc-time-grid {
         position: relative; /* re-scope all positions */
         width: 100%; /* hack to force re-sizing this inner element when scrollbars appear/disappear */
-        min-width: 1000px; /*scroller min width, add horizontal scroll to grid */
+        /*min-width: 1000px; !*scroller min width, add horizontal scroll to grid *!*/
     }
 
     /* Global Event Styles
@@ -1106,7 +1109,6 @@
         right: 0;
         top: 0;
         bottom: 0;
-        overflow: hidden;
     }
 
     .fc-resource-scroll {
