@@ -2,7 +2,6 @@ import * as $ from 'jquery'
 import * as moment from 'moment'
 import {isInt, divideDurationByDuration, htmlEscape} from '../util'
 import InteractiveDateComponent from '../component/InteractiveDateComponent'
-import BusinessHourRenderer from '../component/renderers/BusinessHourRenderer'
 import { default as DayTableMixin, DayTableInterface } from '../component/DayTableMixin'
 import CoordCache from '../common/CoordCache'
 import UnzonedRange from '../models/UnzonedRange'
@@ -12,6 +11,7 @@ import ResourceGridHelperRenderer from './ResourceGridHelperRenderer'
 import ResourceGridFillRenderer from './ResourceGridFillRenderer'
 import ResourceFootprint from '../models/ResourceFootprint'
 import SchedulerInteractionMixin from './interactions/SchedulerInteractionMixin'
+import ResourceBusinessHourRenderer from "./ResourceBusinessHourRenderer";
 
 /* A component that renders one or more columns of vertical time slots
 ----------------------------------------------------------------------------------------------------------------------*/
@@ -96,6 +96,27 @@ export default class ResourceGrid extends InteractiveDateComponent {
     }
 
     return segs
+  }
+
+  eventRangesToEventFootprints(eventRanges, resource?) {
+    let eventFootprints = []
+    let i
+
+    for (i = 0; i < eventRanges.length; i++) {
+      eventFootprints.push.apply( // append
+        eventFootprints,
+        this.eventRangeToEventFootprints(eventRanges[i])
+      )
+    }
+
+    if(resource) {
+      for(let eventFootprint of eventFootprints) {
+        eventFootprint.eventDef = eventFootprint.eventDef.clone()
+        eventFootprint.eventDef.miscProps.resourceId = resource.id
+      }
+    }
+
+    return eventFootprints
   }
 
   eventFootprintToSegs(eventFootprint) {
@@ -1001,7 +1022,7 @@ export default class ResourceGrid extends InteractiveDateComponent {
 }
 
 ResourceGrid.prototype.eventRendererClass = ResourceGridEventRenderer
-ResourceGrid.prototype.businessHourRendererClass = BusinessHourRenderer
+ResourceGrid.prototype.businessHourRendererClass = ResourceBusinessHourRenderer
 ResourceGrid.prototype.helperRendererClass = ResourceGridHelperRenderer
 ResourceGrid.prototype.fillRendererClass = ResourceGridFillRenderer
 

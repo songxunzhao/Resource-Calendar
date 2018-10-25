@@ -20,12 +20,10 @@ export default class BusinessHourRenderer {
   render(businessHourGenerator) {
     let component = this.component
     let unzonedRange = component._getDateProfile().activeUnzonedRange
-
     let eventInstanceGroup = businessHourGenerator.buildEventInstanceGroup(
       component.hasAllDayBusinessHours,
       unzonedRange
     )
-
     let eventFootprints = eventInstanceGroup ?
       component.eventRangesToEventFootprints(
         eventInstanceGroup.sliceRenderRanges(unzonedRange)
@@ -46,6 +44,7 @@ export default class BusinessHourRenderer {
 
   renderSegs(segs) {
     if (this.fillRenderer) {
+      console.log(segs)
       this.fillRenderer.renderSegs('businessHours', segs, {
         getClasses(seg) {
           return [ 'fc-nonbusiness', 'fc-bgevent' ]

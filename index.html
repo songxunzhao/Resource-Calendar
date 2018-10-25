@@ -3348,8 +3348,9 @@
         Y("x",Rd),Y("X",Ud),aa("X",function(a,b,c){c._d=new Date(1e3*parseFloat(a,10))}),aa("x",function(a,b,c){c._d=new Date(t(a))}),
 // Side effect imports
         a.version="2.14.1",b(rb),a.fn=Se,a.min=tb,a.max=ub,a.now=Fe,a.utc=j,a.unix=Jc,a.months=Pc,a.isDate=f,a.locale=Za,a.invalid=n,a.duration=Mb,a.isMoment=r,a.weekdays=Rc,a.parseZone=Kc,a.localeData=ab,a.isDuration=wb,a.monthsShort=Qc,a.weekdaysMin=Tc,a.defineLocale=$a,a.updateLocale=_a,a.locales=bb,a.weekdaysShort=Sc,a.normalizeUnits=J,a.relativeTimeRounding=id,a.relativeTimeThreshold=jd,a.calendarFormat=Tb,a.prototype=Se;var nf=a;return nf}); </script>
-<script src="./fullcalendar-master/dist/fullcalendar.min.js"></script>
+<script src="./fullcalendar-master/dist/fullcalendar.js"></script>
 <script> $(document).ready(function() {
+
     var resources = [
         {
             'id': 1,
@@ -3703,13 +3704,12 @@
         defaultView: 'schedulerDay',
         eventColor: '',
         allDaySlot: false,
-        minTime: '8:00:00',
-        maxTime: '21:00:00',
+        minTime: '8:00:00', // Determines the first time slot that will be displayed for each day.
+        maxTime: '21:00:00', // Determines the first time slot that will be displayed for each day.
         weekends:true,
         businessHours: {
             start: '08:00', // a start time (10am in this example)
             end: '16:30', // an end time (6pm in this example)
-
             dow: [ 1, 2, 3, 4, 5 ]
             // days of week. an array of zero-based day of week integers (0=Sunday)
             // (Monday-Thursday in this example)

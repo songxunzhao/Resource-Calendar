@@ -1,6 +1,6 @@
 import BusinessHourRenderer from "../component/renderers/BusinessHourRenderer";
 
-class ResourceBusinessHourRenderer extends BusinessHourRenderer {
+export default class ResourceBusinessHourRenderer extends BusinessHourRenderer {
   render(businessHourGenerator) {
     let component = this.component
     let unzonedRange = component._getDateProfile().activeUnzonedRange
@@ -10,12 +10,19 @@ class ResourceBusinessHourRenderer extends BusinessHourRenderer {
       unzonedRange
     )
 
-    let eventFootprints = eventInstanceGroup ?
-      component.eventRangesToEventFootprints(
-        eventInstanceGroup.sliceRenderRanges(unzonedRange)
-      ) :
-      []
+    let eventRange = eventInstanceGroup.sliceRenderRanges(unzonedRange)
+    let eventFootprints = []
 
+    let resources = component.opt('resources')
+
+    for(let resource of resources) {
+      eventFootprints = eventFootprints.concat(
+        eventInstanceGroup ?
+          component.eventRangesToEventFootprints(eventRange, resource) :
+          []
+      )
+    }
+    console.log(eventFootprints)
     this.renderEventFootprints(eventFootprints)
   }
 

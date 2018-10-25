@@ -67,7 +67,6 @@ export default class EventInstanceGroup {
     let ownerDef = this.getEventDef()
 
     unzonedRanges = UnzonedRange.invertRanges(unzonedRanges, constraintRange)
-
     return unzonedRanges.map(function(unzonedRange) {
       return new EventRange(unzonedRange, ownerDef) // don't give an EventInstance
     })
