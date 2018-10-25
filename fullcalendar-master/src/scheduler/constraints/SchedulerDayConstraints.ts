@@ -34,10 +34,12 @@ export default class SchedulerDayConstraints extends Constraints {
 
 
   footprintContainsFootprint(outerFootprint, innerFootprint) {
-    if(outerFootprint.resource.id == innerFootprint.resource.id) {
+    console.log(outerFootprint);
+    console.trace();
+    if(!outerFootprint.resource || outerFootprint.resource.id == innerFootprint.resource.id) {
       return outerFootprint.unzonedRange.containsRange(innerFootprint.unzonedRange)
     }
-    return false
+    // return false
   }
 
 

@@ -44,7 +44,6 @@ export default class BusinessHourRenderer {
 
   renderSegs(segs) {
     if (this.fillRenderer) {
-      console.log(segs)
       this.fillRenderer.renderSegs('businessHours', segs, {
         getClasses(seg) {
           return [ 'fc-nonbusiness', 'fc-bgevent' ]

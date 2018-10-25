@@ -3289,6 +3289,7 @@
         slotLabelInterval: '00:30:00',
         slotLabelFormat: 'hh:mm',
         eventLimit: true, // allow "more" link when too many events
+        eventConstraint: "businessHours",
         events: [
             {
                 id: 1,
@@ -3621,8 +3622,8 @@
             var end = event.end.format();
 
             var theList =  [id,start,end];
-            var doThis = "fmp://$/Web Viewer Integrations?script=updateAppointment&param=" + theList;
-            window.location = doThis;
+            // var doThis = "fmp://$/Web Viewer Integrations?script=updateAppointment&param=" + theList;
+            // window.location = doThis;
 
         },
 
@@ -3633,8 +3634,8 @@
             var end = event.end.format();
 
             var theList =  [id,start,end];
-            var doThis = "fmp://$/Web Viewer Integrations?script=updateAppointment&param=" + theList;
-            window.location = doThis;
+            // var doThis = "fmp://$/Web Viewer Integrations?script=updateAppointment&param=" + theList;
+            // window.location = doThis;
 
         }
 

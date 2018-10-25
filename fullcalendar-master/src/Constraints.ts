@@ -35,7 +35,7 @@ export default class Constraints {
     let eventDef = eventInstanceGroup.getEventDef()
     let eventFootprints = this.eventRangesToEventFootprints(eventInstanceGroup.getAllEventRanges())
     let i
-
+    console.log(eventFootprints)
     let peerEventInstances = this.getPeerEventInstances(eventDef)
     let peerEventRanges = peerEventInstances.map(eventInstanceToEventRange)
     let peerEventFootprints = this.eventRangesToEventFootprints(peerEventRanges)
@@ -155,7 +155,6 @@ export default class Constraints {
 
   isFootprintWithinConstraints(componentFootprint, constraintFootprints) {
     let i
-
     for (i = 0; i < constraintFootprints.length; i++) {
       if (this.footprintContainsFootprint(constraintFootprints[i], componentFootprint)) {
         return true

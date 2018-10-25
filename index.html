@@ -3728,11 +3728,13 @@
                 return date.format(':mm');
             }
         },
+        eventConstraint: "businessHours",
         eventLimit: true, // allow "more" link when too many events
         events: eventData,
         resources: resources,
         editable: true,
         selectable: true,
+        selectConstraint: "businessHours",
 
         cellHover: function (start, event, footprint) {
             tweakMouseMoveEvent(event)
@@ -3793,6 +3795,7 @@
         },
 
         eventOverlap: function (stillEvent, movingEvent) {
+            console.log(stillEvent);
             if(movingEvent.e === 'bo') {
                 return false;
             } else if(stillEvent.e === 'bo'){
@@ -3806,7 +3809,7 @@
 
         selectOverlap: function (event) {
             var eventTypes = ['ap', 'bo'];
-
+            console.log(event);
             return eventTypes.indexOf(event.e) === -1;
         },
 
@@ -3818,7 +3821,7 @@
             fullCalendar.fullCalendar('unselect');
 
             // TODO: call FMP
-            window.location = "FMP://$/Appt10_scroll_10_15.fmp12?script=event&param=" + param;
+            // window.location = "FMP://$/Appt10_scroll_10_15.fmp12?script=event&param=" + param;
         }
 
     });
@@ -3827,7 +3830,7 @@
         var scrollPos = getWindowScrollPosition();
         var param = [scrollPos.percentX, scrollPos.percentY];
 
-        window.location = "FMP://$/Appt10_scroll_10_15.fmp12?script=Rotate Code&param="+param;
+        // window.location = "FMP://$/Appt10_scroll_10_15.fmp12?script=Rotate Code&param="+param;
     }
 });
 </script>
