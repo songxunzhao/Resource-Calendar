@@ -1,7 +1,7 @@
 import DateSelecting from "../component/interactions/DateSelecting";
 import {compareNumbers} from "../util";
 import UnzonedRange from "../models/UnzonedRange";
-import ResourceFootprint from "../models/ResourceFootprint";
+import ResourceComponentFootprint from "../models/ResourceComponentFootprint";
 
 export default class ResourceDateSelecting extends DateSelecting {
   computeSelectionFootprint(footprint0, footprint1) {
@@ -14,7 +14,7 @@ export default class ResourceDateSelecting extends DateSelecting {
 
     ms.sort(compareNumbers)
 
-    return new ResourceFootprint (
+    return new ResourceComponentFootprint (
         new UnzonedRange(ms[0], ms[3]),
         footprint0.isAllDay,
         footprint0.resource

@@ -3,9 +3,9 @@ import ResourceDateSelecting from "../ResourceDateSelecting";
 import DateClicking from "../../component/interactions/DateClicking";
 import CellHovering from "../../component/interactions/CellHovering";
 import EventPointing from "../../component/interactions/EventPointing";
-import EventDragging from "../../component/interactions/EventDragging";
 import EventResizing from "../../component/interactions/EventResizing";
 import ExternalDropping from "../../component/interactions/ExternalDropping";
+import SchedulerEventDragging from "./SchedulerEventDragging";
 
 export default class SchedulerInteractionMixin extends Mixin {
 }
@@ -14,6 +14,6 @@ export default class SchedulerInteractionMixin extends Mixin {
 (SchedulerInteractionMixin as any).prototype.cellHoveringClass = CellHovering;
 (SchedulerInteractionMixin as any).prototype.dateSelectingClass = ResourceDateSelecting;
 (SchedulerInteractionMixin as any).prototype.eventPointingClass = EventPointing;
-(SchedulerInteractionMixin as any).prototype.eventDraggingClass = EventDragging;
+(SchedulerInteractionMixin as any).prototype.eventDraggingClass = SchedulerEventDragging;
 (SchedulerInteractionMixin as any).prototype.eventResizingClass = EventResizing;
-(SchedulerInteractionMixin as any).prototype.externalDroppingClass = ExternalDropping
+(SchedulerInteractionMixin as any).prototype.externalDroppingClass = ExternalDropping;

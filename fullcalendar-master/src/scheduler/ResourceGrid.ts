@@ -9,7 +9,7 @@ import ComponentFootprint from '../models/ComponentFootprint'
 import ResourceGridEventRenderer from './ResourceGridEventRenderer'
 import ResourceGridHelperRenderer from './ResourceGridHelperRenderer'
 import ResourceGridFillRenderer from './ResourceGridFillRenderer'
-import ResourceFootprint from '../models/ResourceFootprint'
+import ResourceComponentFootprint from '../models/ResourceComponentFootprint'
 import SchedulerInteractionMixin from './interactions/SchedulerInteractionMixin'
 import ResourceBusinessHourRenderer from "./ResourceBusinessHourRenderer";
 
@@ -779,7 +779,7 @@ export default class ResourceGrid extends InteractiveDateComponent {
     start.time(time)
     end = start.clone().add(this.snapDuration)
     resource = this.getCellResource(hit.snap, hit.col)
-    return new ResourceFootprint(
+    return new ResourceComponentFootprint(
       new UnzonedRange(start, end),
       false, // all-day?,
       resource
