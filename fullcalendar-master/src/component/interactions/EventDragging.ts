@@ -189,7 +189,6 @@ export default class EventDragging extends Interaction {
               eventDef.id,
               eventDefMutation
             )
-            console.log(mutatedEventInstanceGroup)
             isAllowed = component.isEventInstanceGroupAllowed(mutatedEventInstanceGroup)
           } else {
             isAllowed = false

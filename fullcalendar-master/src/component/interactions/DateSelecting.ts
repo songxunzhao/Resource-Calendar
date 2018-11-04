@@ -79,7 +79,7 @@ export default class DateSelecting extends Interaction {
       hitOver: (hit, isOrig, origHit) => {
         let origHitFootprint
         let hitFootprint
-
+        console.log('---footprint---', hit)
         if (origHit) { // click needs to have started on a hit
 
           origHitFootprint = component.getSafeHitFootprint(origHit)

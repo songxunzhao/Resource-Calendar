@@ -92,6 +92,7 @@ export default class ResourceGrid extends InteractiveDateComponent {
     if (componentFootprint.resource) {
       for (i = 0; i < segs.length; i++) {
         segs[i].col = this.resourceIDToCol(componentFootprint.resource.id)
+        segs[i].subCol = componentFootprint.subCol
       }
     }
 
@@ -758,6 +759,7 @@ export default class ResourceGrid extends InteractiveDateComponent {
 
         return {
           col: Math.floor(colIndex / 2),
+          subCol: colIndex % 2,
           snap: snapIndex,
           component: this, // needed unfortunately :(
           left: colCoordCache.getLeftOffset(colIndex),
@@ -775,14 +777,15 @@ export default class ResourceGrid extends InteractiveDateComponent {
     let time = this.computeSnapTime(hit.snap) // pass in the snap-index
     let end
     let resource
-
+    console.log(' -- get hit footprint --', hit)
     start.time(time)
     end = start.clone().add(this.snapDuration)
     resource = this.getCellResource(hit.snap, hit.col)
     return new ResourceComponentFootprint(
       new UnzonedRange(start, end),
       false, // all-day?,
-      resource
+      resource,
+      hit.subCol
     )
   }
 

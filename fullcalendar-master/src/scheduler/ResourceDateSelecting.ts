@@ -17,7 +17,8 @@ export default class ResourceDateSelecting extends DateSelecting {
     return new ResourceComponentFootprint (
         new UnzonedRange(ms[0], ms[3]),
         footprint0.isAllDay,
-        footprint0.resource
+        footprint0.resource,
+        footprint0.subCol
     )
   }
 }

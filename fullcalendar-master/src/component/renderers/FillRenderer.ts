@@ -93,6 +93,7 @@ export default class FillRenderer { // use for highlight, background events, bus
   // Builds the HTML needed for one fill segment. Generic enough to work with different types.
   buildSegHtml(type, seg, props) {
     // custom hooks per-type
+    console.log('--buildSegHtml--', seg)
     let classes = props.getClasses ? props.getClasses(seg) : []
     let css = cssToStr(props.getCss ? props.getCss(seg) : {})
 
