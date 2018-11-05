@@ -961,6 +961,31 @@ export default class ResourceGrid extends InteractiveDateComponent {
     return ''
   }
 
+  renderHighlight(componentFootprint) {
+    let serviceCellWidth = this.opt('serviceCellWidth')
+
+    if (this.fillRenderer) {
+      this.fillRenderer.renderFootprint(
+        'highlight',
+        componentFootprint,
+        {
+          getClasses() {
+            return [ 'fc-highlight' ]
+          },
+          getCss: (seg) => {
+            return {
+              'left': seg.subCol == 0 ? 0 : serviceCellWidth + 'px',
+              'width': seg.subCol == 0 ? serviceCellWidth + 'px' : 'auto',
+              'right': seg.subCol == 1 ? 0 : 'auto'
+            }
+          },
+        }
+      )
+    }
+
+    this.callChildren('renderHighlight', arguments)
+  }
+
   renderBgCellHtml(resource, date, otherAttrs) {
     let t = (this as any)
     let view = t.view

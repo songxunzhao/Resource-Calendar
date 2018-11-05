@@ -56,6 +56,25 @@ export default class ResourceGridEventRenderer extends EventRenderer {
     return true
   }
 
+  renderBgSegs(segs) {
+    if (this.fillRenderer) {
+      this.fillRenderer.renderSegs('bgEvent', segs, {
+        getClasses: (seg) => {
+          return this.getBgClasses(seg.footprint.eventDef)
+        },
+        getCss: (seg) => {
+          return {
+            'background-color': this.getBgColor(seg.footprint.eventDef)
+          }
+        },
+        filterEl: (seg, el) => {
+          return this.filterEventRenderEl(seg.footprint, el)
+        }
+      })
+    } else {
+      return false // signal failure if no fillRenderer
+    }
+  }
 
   // Renders the HTML for a single event segment's default rendering
   fgSegHtml(seg, disableResizing) {
