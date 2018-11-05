@@ -777,7 +777,6 @@ export default class ResourceGrid extends InteractiveDateComponent {
     let time = this.computeSnapTime(hit.snap) // pass in the snap-index
     let end
     let resource
-    console.log(' -- get hit footprint --', hit)
     start.time(time)
     end = start.clone().add(this.snapDuration)
     resource = this.getCellResource(hit.snap, hit.col)

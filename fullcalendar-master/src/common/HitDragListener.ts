@@ -181,7 +181,6 @@ export default class HitDragListener extends DragListener {
       left += this.coordAdjust.left
       top += this.coordAdjust.top
     }
-    console.log('---queryhit---', this.component)
     return this.component.queryHit(left, top)
   }
 

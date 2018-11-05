@@ -358,7 +358,7 @@ export default class SchedulerView extends View {
         dateProfile.end,
         ev,
         this,
-        footprint.resource
+        footprint
       ]
     })
   }

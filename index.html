@@ -3811,10 +3811,13 @@
             return eventTypes.indexOf(event.e) === -1;
         },
 
-        select: function( start, end, jsEvent, view, resource ) {
+        select: function( start, end, jsEvent, view, footprint ) {
             var scrollPos = getWindowScrollPosition();
+            var resource = footprint.resource;
+            var subColumn = footprint.subCol;
             var param = [resource.id, start, end, scrollPos.percentX, scrollPos.percentY];
 
+            console.log(resource, subColumn);
             // TODO: Deselect selection
             // fullCalendar.fullCalendar('unselect');
 
